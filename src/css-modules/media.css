@@ -1,0 +1,17 @@
+.flex-direction-column640 {
+	flex-direction: row;
+}
+.flex-direction-column500 {
+	flex-direction: row;
+}
+
+@media (max-width: 640px) {
+	.flex-direction-column640 {
+		flex-direction: column;
+	}
+}
+@media (max-width: 500px) {
+	.flex-direction-column500 {
+		flex-direction: column;
+	}
+}
