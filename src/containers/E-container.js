@@ -28,7 +28,7 @@ export class Econtainer extends Component {
 		//   });
 	}
 
-	addItem = newItem => {
+	addItem = (newItem) => {
 		const cat = this.props.cats[this.props.currentCatNameIndex];
 		console.log('newItem', newItem);
 		const newArr = [ ...cat['data'], ...[ newItem ] ];
@@ -46,10 +46,10 @@ export class Econtainer extends Component {
 		console.log('this.props', this.props);
 		let list = null;
 		if (this.props.cats) {
-			list = this.props.cats[0]['data'].map(item => {
+			list = this.props.cats[0]['data'].map((item) => {
 				console.log('key', item);
 				return (
-					<div className='flex-container flex-center' key={item['riddle']}>
+					<div className="flex-container flex-center" key={item['riddle']}>
 						<p>{item['riddle']}</p>
 						<p> - </p>
 						<p>{item['answer']}</p>
@@ -68,10 +68,10 @@ export class Econtainer extends Component {
 			// console.log('data', data)
 			if (data.length) {
 				return (
-					<div key={key} className='row' style={style}>
-						<div className='flex-container flex-space-between flex-direction-column500'>
-							<div className='cell'>{data[index]['riddle']}</div>
-							<div className='cell darkgrey'>{data[index]['answer']}</div>
+					<div key={key} className="row" style={style}>
+						<div className="flex-container flex-space-between flex-direction-column500">
+							<div className="cell">{data[index]['riddle']}</div>
+							<div className="cell darkgrey">{data[index]['answer']}</div>
 						</div>
 					</div>
 				);
@@ -79,7 +79,7 @@ export class Econtainer extends Component {
 		}
 
 		return (
-			<div className='table grey' key={id}>
+			<div className="table grey" key={id}>
 				<AutoSizer>
 					{({ height, width }) => (
 						<List
@@ -100,19 +100,23 @@ export class Econtainer extends Component {
 
 	render() {
 		const cats = this.props.cats || [];
-		const catNames = cats.map(item => item.name);
+		const catNames = cats.map((item) => item.name);
 		const cat = cats.length && cats[this.props.currentCatNameIndex];
 		// const table = cats && this.props.showList ? cats.map(cat => this.getRows(cat['id'], cat['data'], cat['name'])) : null;
 		const table = cat && this.props.showList && this.getRows(cat['id'], cat['data']);
 		return (
-			<div className='container'>
-				{/* <button className={buttons['action-button']} onClick={() => this.navigateToModalPage()}>
+			<div className="container">
+				{/* <button className={buttons['action-btn']} onClick={() => this.navigateToModalPage()}>
 					modal page
 				</button> */}
-				<button className={buttons['action-button']} onClick={() => this.props.toggleShowList()}>
+				<button
+					tabIndex="5"
+					className={`${buttons.btn} ${buttons['action-btn']}`}
+					onClick={() => this.props.toggleShowList()}
+				>
 					{(this.props.showList ? 'hide' : 'show') + '-list'}
 				</button>
-				<h2 className='no-margins'>----</h2>
+				<h2 className="no-margins">----</h2>
 				{table}
 				<MultiDirectionCard
 					items={catNames}
@@ -127,21 +131,21 @@ export class Econtainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	// console.log('state', state)
 	// console.log("state.firestore", state.firestore.ordered);
 	return {
-		cats                : state.firestore.ordered.cats,
-		showList            : state.showList.showList,
-		currentCatNameIndex : state.filters.listAll.currentCatNameIndex
+		cats: state.firestore.ordered.cats,
+		showList: state.showList.showList,
+		currentCatNameIndex: state.filters.listAll.currentCatNameIndex
 	};
 };
 
-const mapDispatchToProps = dispatch => ({
-	toggleShowList       : () => dispatch(toggleShowList()),
-	createItem           : (id, arr) => dispatch(createItemActionCreator(id, arr)),
-	increaseCatNameIndex : () => dispatch(listAllIncreaseCatNameIndex()),
-	decreaseCatNameIndex : () => dispatch(listAllDecreaseCatNameIndex())
+const mapDispatchToProps = (dispatch) => ({
+	toggleShowList: () => dispatch(toggleShowList()),
+	createItem: (id, arr) => dispatch(createItemActionCreator(id, arr)),
+	increaseCatNameIndex: () => dispatch(listAllIncreaseCatNameIndex()),
+	decreaseCatNameIndex: () => dispatch(listAllDecreaseCatNameIndex())
 });
 
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(

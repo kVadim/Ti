@@ -14,8 +14,13 @@ code {
 html,
 body {
 	/* overflow: hidden; */
+	background-color: var(--background);
 }
 
 p {
 	margin: 0;
+}
+
+:root {
+	--background: #ffd9ce94;
 }

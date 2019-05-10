@@ -1,8 +1,14 @@
 /* buttons */
-.action-button {
-    width: 200px;
-  }
-  
-.top-header-button {
-   width: 100px;
+.btn:focus {
+	color: black;
+	font-weight: 800;
+	outline: none;
+}
+
+.action-btn {
+	width: 200px;
+}
+
+.top-header-btn {
+	width: 100px;
 }

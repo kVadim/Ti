@@ -45,13 +45,13 @@ class ModalContainer extends Component {
 
 		return (
 			<div className="Modal container">
-				<button className="action-button" onClick={() => this.toggleModalS()}>
+				<button className="action-btn" onClick={() => this.toggleModalS()}>
 					ModalS
 				</button>
-				<button className="action-button" onClick={() => this.setState({ portal: true })}>
+				<button className="action-btn" onClick={() => this.setState({ portal: true })}>
 					Portal
 				</button>
-				<button className="action-button" onClick={() => this.navigateToTr()}>
+				<button className="action-btn" onClick={() => this.navigateToTr()}>
 					Text
 				</button>
 
@@ -62,13 +62,13 @@ class ModalContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		modalS: state.modalS.modalS
 	};
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleModalS: () => dispatch(toggleModal())
 	};

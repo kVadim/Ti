@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+// css
 import classNames from 'classnames';
+import buttons from '../css-modules/buttons.module.css';
 
 export class Form extends Component {
 	constructor(props) {
@@ -14,15 +17,15 @@ export class Form extends Component {
 		};
 	}
 
-	handleChangeRiddle = e => {
+	handleChangeRiddle = (e) => {
 		this.setState({ riddle: e.target.value });
 	};
 
-	handleChangeAnswer = e => {
+	handleChangeAnswer = (e) => {
 		this.setState({ answer: e.target.value });
 	};
 
-	handleSubmit = e => {
+	handleSubmit = (e) => {
 		e.preventDefault();
 		const newItem = {
 			riddle: this.state.riddle,
@@ -46,7 +49,7 @@ export class Form extends Component {
 					<p>
 						<span className="bracket-left">[</span>
 						<input
-							tabIndex="1"
+							tabIndex="2"
 							className="simple-input"
 							type="text"
 							name="test"
@@ -58,7 +61,7 @@ export class Form extends Component {
 					</p>
 
 					<p>
-						<button className="btn-add border-radius5" type="submit">
+						<button tabIndex="3" className={`${buttons.btn} btn-add border-radius5`} type="submit">
 							+
 						</button>
 					</p>
@@ -66,7 +69,7 @@ export class Form extends Component {
 					<p>
 						<span className="bracket-left">[</span>
 						<input
-							tabIndex="2"
+							tabIndex="4"
 							className="simple-input"
 							type="text"
 							name="test"
