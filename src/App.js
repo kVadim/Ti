@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
 import ModalContainer from './modals/ModalContainer';
 import TopHeader from './containers/Top-header';
-import Econtainer from './containers/E-container';
+import ListAll from './containers/ListAll';
 import GoAhead from './containers/Go-ahead';
 import './css-modules/common.css';
 import './css-modules/media.css';
@@ -42,12 +42,12 @@ class App extends Component {
 
 		return (
 			<BrowserRouter>
-				<div className="App">
+				<div className='App'>
 					<TopHeader topProps={someProp} />
 					<Switch>
-						<Route exact path="/" component={ModalContainer} />
-						<Route path="/list-all" component={Econtainer} />
-						<Route path="/go-ahead" component={GoAhead} />
+						<Route exact path='/' component={ModalContainer} />
+						<Route path='/list-all' component={ListAll} />
+						<Route path='/go-ahead' component={GoAhead} />
 						{/* <Route exact path="/" component={Dashboard} />
             <Route path="/project/:id" component={ProjectDetails} />
             <Route path="/signin" component={SignIn} />

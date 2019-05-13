@@ -15,7 +15,7 @@ import { createItemActionCreator } from '../store/actions/createItemActionCreato
 import classNames from 'classnames';
 import buttons from '../css-modules/buttons.module.css';
 
-export class Econtainer extends Component {
+export class ListAll extends Component {
 	constructor(props) {
 		super(props);
 
@@ -152,8 +152,8 @@ export class Econtainer extends Component {
 				<MultiDirectionCard
 					items={catNames}
 					uppercase={true}
-					increaseCatNameIndex={this.props.increaseCatNameIndex}
-					decreaseCatNameIndex={this.props.decreaseCatNameIndex}
+					increaseIndex={this.props.increaseCatNameIndex}
+					decreaseIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
 					active={this.state.activeField === 0}
 				/>
@@ -186,7 +186,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(
-	Econtainer
+	ListAll
 );
 
 // componentDidMount() {
