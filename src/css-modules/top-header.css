@@ -1,0 +1,5 @@
+.top-header-container {
+	padding: 10px;
+	height: 40px;
+	background-color: var(--darktop);
+}

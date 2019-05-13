@@ -22,5 +22,8 @@ p {
 }
 
 :root {
-	--background: #ffd9ce94;
+	/* --background: #ceedff94; */
+	/* --background: #5d555514; */
+	--background: #45616b1f;
+	--darktop: #908f8fbd;
 }

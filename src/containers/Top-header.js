@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './Top-header.css';
+import '../css-modules/top-header.css';
 import buttons from '../css-modules/buttons.module.css';
 import { toggleModal } from '../store/actions/toggleModal';
 import { routes } from '../constants/routes';
 
 export class TopHeader extends Component {
 	static propTypes = {
-		prop: PropTypes.number
+		prop : PropTypes.number
 	};
 
 	componentDidMount() {
@@ -26,14 +26,9 @@ export class TopHeader extends Component {
 	}
 
 	render() {
-		const divStyle = {
-			backgroundColor: 'grey',
-			height: '40px'
-		};
-
 		return (
-			<div className="top-header-container" style={divStyle}>
-				<div className="buttons flex-start">
+			<div className='top-header-container'>
+				<div className='buttons flex-start'>
 					<button className={buttons['top-header-btn']} onClick={() => this.navigateTo(routes.listAll)}>
 						list all
 					</button>
@@ -56,15 +51,15 @@ export class TopHeader extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
-		a: 'a'
+		a : 'a'
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 	return {
-		toggleModalS: () => dispatch(toggleModal())
+		toggleModalS : () => dispatch(toggleModal())
 	};
 };
 
