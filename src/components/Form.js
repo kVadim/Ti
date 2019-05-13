@@ -73,7 +73,7 @@ export class Form extends Component {
 							placeholder='.'
 							value={this.state.riddle}
 							onChange={this.handleChangeRiddle}
-							autocomplete='off'
+							autoComplete='off'
 							ref={input => {
 								this.nameInputRiddle = input;
 							}}
@@ -102,43 +102,14 @@ export class Form extends Component {
 							placeholder='.'
 							value={this.state.answer}
 							onChange={this.handleChangeAnswer}
-							autocomplete='off'
+							autoComplete='off'
 							ref={input => {
 								this.nameInputAnswer = input;
 							}}
 						/>
 						<span className={bracketRightAnswer}>-]</span>
 					</p>
-
-					{/* <p>
-            <br />
-            type:
-            <select name="product" defaultValue={2}>
-              <option value="1">noun</option>
-              <option value="2">adjective</option>
-              <option value="3">verb</option>
-            </select>
-          </p> */}
 				</div>
-
-				{/* <p>
-          Textarea: <br />
-          <Textarea id={"1"} name={"name1"} />
-        </p> */}
-
-				{/* <p>
-          Checkboxes: <br />
-          <Checkbox id={"1"} name={"name1"} label={"Cat1"} />
-          <Checkbox id={"2"} name={"name1"} label={"Cat1"} />
-          <Checkbox id={"3"} name={"name1"} label={"Cat1"} />
-        </p>
-
-        <p>
-          Radios: <br />
-          <Radio id={"1"} name={"name1"} label={"Loc1"} />
-          <Radio id={"2"} name={"name2"} label={"Loc2"} />
-          <Radio id={"3"} name={"name3"} label={"Loc3"} />
-        </p> */}
 			</form>
 		);
 	}
