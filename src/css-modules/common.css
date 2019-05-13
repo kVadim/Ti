@@ -86,11 +86,6 @@
 	text-align: -webkit-center;
 }
 
-.simple-input:focus {
-	border-color: red;
-	color: black;
-}
-
 .btn-add {
 	height: 32px;
 	font-size: 18px;
@@ -114,6 +109,11 @@
 	position: relative;
 	right: 20px;
 	color: #888;
+}
+
+.active-field {
+	color: black;
+	font-weight: 600;
 }
 
 /* animation */

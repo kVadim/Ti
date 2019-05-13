@@ -15,10 +15,6 @@
 	backface-visibility: hidden;
 }
 
-.task:focus {
-	outline: red;
-}
-
 /* .rightClicked {
 	animation: rightClickAnimation 1.4s ease-out forwards;
 }

@@ -9,12 +9,12 @@ export class MultiDirectionCard extends Component {
 		super(props);
 
 		this.state = {
-			lc: false,
-			rc: false,
-			showItem: true,
-			offset: 50,
-			clientX: undefined,
-			rightToLeft: undefined
+			lc          : false,
+			rc          : false,
+			showItem    : true,
+			offset      : 50,
+			clientX     : undefined,
+			rightToLeft : undefined
 		};
 	}
 
@@ -26,24 +26,25 @@ export class MultiDirectionCard extends Component {
 		window.removeEventListener('keydown', this.handleKeyDown);
 	}
 
-	handleKeyDown = (e) => {
+	handleKeyDown = e => {
 		// console.log('e.key in Multi', e.key)
 		switch (e.key) {
 			case 'ArrowRight':
-				this.increaseIndex();
+				this.props.active && this.increaseIndex();
 				break;
 			case 'ArrowLeft':
-				this.decreaseIndex();
+				this.props.active && this.decreaseIndex();
 				break;
 			default:
+			// console.log(e.key);
 		}
 	};
 
-	handleTouchStart = (e) => {
+	handleTouchStart = e => {
 		// console.warn('start', e.touches[0].clientX);
 		this.setState({ clientX: e.touches[0].clientX });
 	};
-	handleTouchMove = (e) => {
+	handleTouchMove = e => {
 		if (this.state.clientX) {
 			const shift = this.state.clientX - e.touches[0].clientX;
 
@@ -61,7 +62,7 @@ export class MultiDirectionCard extends Component {
 			}
 		}
 	};
-	handleTouchEnd = (e) => {
+	handleTouchEnd = e => {
 		// console.warn('end');
 		this.setState({ clientX: undefined, rightToLeft: undefined });
 	};
@@ -90,11 +91,15 @@ export class MultiDirectionCard extends Component {
 		const cardBox = classNames(`${tasks.card}`, { rightClicked: this.state.rc }, { leftClicked: this.state.lc });
 		const currentItem = this.state.showItem && items.length ? items[this.props.index] : '';
 		const taskContainer = classNames('flex-container', 'flex-center', 'grey', 'margin-top20', `${buttons.btn}`);
-		const itemField = classNames(`${tasks.task}`, { uppercase: this.props.uppercase });
+		const itemField = classNames(
+			`${tasks.task}`,
+			{ uppercase: this.props.uppercase },
+			{ 'active-field': this.props.active }
+		);
 		const firstItem = this.props.index <= 0;
 		const lastItem = items.length <= this.props.index + 1;
 		return (
-			<div className={taskContainer} tabIndex="1">
+			<div className={taskContainer} tabIndex='1'>
 				<div className={cardBox}>
 					<div
 						className={itemField}
@@ -102,12 +107,12 @@ export class MultiDirectionCard extends Component {
 						onTouchMove={this.handleTouchMove}
 						onTouchEnd={this.handleTouchEnd}
 					>
-						<div className="flex-container flex-space-between">
-							<p className="no-margins left" disabled={firstItem} onClick={this.decreaseIndex}>
+						<div className='flex-container flex-space-between'>
+							<p className='no-margins left' disabled={firstItem} onClick={this.decreaseIndex}>
 								{firstItem ? 'x' : '<-'}
 							</p>
-							<p className="no-margins">{currentItem}</p>
-							<p className="no-margins right" disabled={lastItem} onClick={this.increaseIndex}>
+							<p className='no-margins'>{currentItem}</p>
+							<p className='no-margins right' disabled={lastItem} onClick={this.increaseIndex}>
 								{lastItem ? 'x' : '->'}
 							</p>
 						</div>

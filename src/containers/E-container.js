@@ -11,24 +11,43 @@ import { List, AutoSizer } from 'react-virtualized';
 // import { getFirestore } from "redux-firestore";
 
 import { createItemActionCreator } from '../store/actions/createItemActionCreator';
-
+// css
+import classNames from 'classnames';
 import buttons from '../css-modules/buttons.module.css';
 
 export class Econtainer extends Component {
-	componentDidMount() {
-		// console.log("this.props", this.props);
-		// const fireStore = getFirestore();
-		// fireStore
-		//   .collection("list")
-		//   .get()
-		//   .then(res => {
-		//     res.docs.forEach(doc => {
-		//       this.setState({ list: doc.data() });
-		//     });
-		//   });
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			activeField  : 0,
+			maxActiveNum : 3
+		};
 	}
 
-	addItem = (newItem) => {
+	componentDidMount() {
+		window.addEventListener('keydown', this.handleKeyDown);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('keydown', this.handleKeyDown);
+	}
+
+	increaseActiveFieldNum() {
+		this.setState(prevState => {
+			const activeFieldNum = prevState.activeField < prevState.maxActiveNum ? prevState.activeField + 1 : 0;
+			return { activeField: activeFieldNum };
+		});
+	}
+
+	decreaseActiveFieldNum() {
+		this.setState(prevState => {
+			const activeFieldNum = prevState.activeField > 0 ? prevState.activeField - 1 : prevState.maxActiveNum;
+			return { activeField: activeFieldNum };
+		});
+	}
+
+	addItem = newItem => {
 		const cat = this.props.cats[this.props.currentCatNameIndex];
 		console.log('newItem', newItem);
 		const newArr = [ ...cat['data'], ...[ newItem ] ];
@@ -36,6 +55,18 @@ export class Econtainer extends Component {
 		const id = cat['id'];
 		console.log('id', id);
 		this.props.createItem(id, newArr);
+	};
+
+	handleKeyDown = e => {
+		switch (e.key) {
+			case 'ArrowDown':
+				e.shiftKey && this.increaseActiveFieldNum();
+				break;
+			case 'ArrowUp':
+				e.shiftKey && this.decreaseActiveFieldNum();
+				break;
+			default:
+		}
 	};
 
 	navigateToModalPage() {
@@ -46,10 +77,10 @@ export class Econtainer extends Component {
 		console.log('this.props', this.props);
 		let list = null;
 		if (this.props.cats) {
-			list = this.props.cats[0]['data'].map((item) => {
+			list = this.props.cats[0]['data'].map(item => {
 				console.log('key', item);
 				return (
-					<div className="flex-container flex-center" key={item['riddle']}>
+					<div className='flex-container flex-center' key={item['riddle']}>
 						<p>{item['riddle']}</p>
 						<p> - </p>
 						<p>{item['answer']}</p>
@@ -68,10 +99,10 @@ export class Econtainer extends Component {
 			// console.log('data', data)
 			if (data.length) {
 				return (
-					<div key={key} className="row" style={style}>
-						<div className="flex-container flex-space-between flex-direction-column500">
-							<div className="cell">{data[index]['riddle']}</div>
-							<div className="cell darkgrey">{data[index]['answer']}</div>
+					<div key={key} className='row' style={style}>
+						<div className='flex-container flex-space-between flex-direction-column500'>
+							<div className='cell'>{data[index]['riddle']}</div>
+							<div className='cell darkgrey'>{data[index]['answer']}</div>
 						</div>
 					</div>
 				);
@@ -79,7 +110,7 @@ export class Econtainer extends Component {
 		}
 
 		return (
-			<div className="table grey" key={id}>
+			<div className='table grey' key={id}>
 				<AutoSizer>
 					{({ height, width }) => (
 						<List
@@ -100,23 +131,23 @@ export class Econtainer extends Component {
 
 	render() {
 		const cats = this.props.cats || [];
-		const catNames = cats.map((item) => item.name);
+		const catNames = cats.map(item => item.name);
 		const cat = cats.length && cats[this.props.currentCatNameIndex];
 		// const table = cats && this.props.showList ? cats.map(cat => this.getRows(cat['id'], cat['data'], cat['name'])) : null;
 		const table = cat && this.props.showList && this.getRows(cat['id'], cat['data']);
+		const toggleBtnSt = classNames(
+			{ 'active-field': this.state.activeField === 4 },
+			`${buttons.btn} ${buttons['action-btn']}`
+		);
 		return (
-			<div className="container">
+			<div className='container'>
 				{/* <button className={buttons['action-btn']} onClick={() => this.navigateToModalPage()}>
 					modal page
 				</button> */}
-				<button
-					tabIndex="5"
-					className={`${buttons.btn} ${buttons['action-btn']}`}
-					onClick={() => this.props.toggleShowList()}
-				>
+				<button className={toggleBtnSt} onClick={() => this.props.toggleShowList()}>
 					{(this.props.showList ? 'hide' : 'show') + '-list'}
 				</button>
-				<h2 className="no-margins">----</h2>
+				<h2 className='no-margins'>----</h2>
 				{table}
 				<MultiDirectionCard
 					items={catNames}
@@ -124,30 +155,49 @@ export class Econtainer extends Component {
 					increaseCatNameIndex={this.props.increaseCatNameIndex}
 					decreaseCatNameIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
+					active={this.state.activeField === 0}
 				/>
-				<Form addItem={this.addItem} />
+				<Form
+					addItem={this.addItem}
+					activeRiddle={this.state.activeField === 1}
+					activeAdd={this.state.activeField === 2}
+					activeAnswer={this.state.activeField === 3}
+				/>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	// console.log('state', state)
 	// console.log("state.firestore", state.firestore.ordered);
 	return {
-		cats: state.firestore.ordered.cats,
-		showList: state.showList.showList,
-		currentCatNameIndex: state.filters.listAll.currentCatNameIndex
+		cats                : state.firestore.ordered.cats,
+		showList            : state.showList.showList,
+		currentCatNameIndex : state.filters.listAll.currentCatNameIndex
 	};
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	toggleShowList: () => dispatch(toggleShowList()),
-	createItem: (id, arr) => dispatch(createItemActionCreator(id, arr)),
-	increaseCatNameIndex: () => dispatch(listAllIncreaseCatNameIndex()),
-	decreaseCatNameIndex: () => dispatch(listAllDecreaseCatNameIndex())
+const mapDispatchToProps = dispatch => ({
+	toggleShowList       : () => dispatch(toggleShowList()),
+	createItem           : (id, arr) => dispatch(createItemActionCreator(id, arr)),
+	increaseCatNameIndex : () => dispatch(listAllIncreaseCatNameIndex()),
+	decreaseCatNameIndex : () => dispatch(listAllDecreaseCatNameIndex())
 });
 
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(
 	Econtainer
 );
+
+// componentDidMount() {
+// console.log("this.props", this.props);
+// const fireStore = getFirestore();
+// fireStore
+//   .collection("list")
+//   .get()
+//   .then(res => {
+//     res.docs.forEach(doc => {
+//       this.setState({ list: doc.data() });
+//     });
+//   });
+// }

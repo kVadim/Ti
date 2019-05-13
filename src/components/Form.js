@@ -12,72 +12,102 @@ export class Form extends Component {
 		console.log('this.props in FORM', this.props);
 
 		this.state = {
-			riddle: '',
-			answer: ''
+			riddle : '',
+			answer : ''
 		};
 	}
 
-	handleChangeRiddle = (e) => {
+	componentDidUpdate() {
+		if (this.props.activeRiddle) {
+			this.nameInputRiddle.focus();
+		}
+		if (this.props.activeAdd) {
+			this.nameInputAdd.focus();
+		}
+		if (this.props.activeAnswer) {
+			this.nameInputAnswer.focus();
+		}
+	}
+
+	handleChangeRiddle = e => {
 		this.setState({ riddle: e.target.value });
 	};
 
-	handleChangeAnswer = (e) => {
+	handleChangeAnswer = e => {
 		this.setState({ answer: e.target.value });
 	};
 
-	handleSubmit = (e) => {
+	handleSubmit = e => {
 		e.preventDefault();
 		const newItem = {
-			riddle: this.state.riddle,
-			answer: this.state.answer,
-			solved: false
+			riddle : this.state.riddle,
+			answer : this.state.answer,
+			solved : false
 		};
 
 		this.props.addItem(newItem);
 		this.setState({
-			riddle: '',
-			answer: '#BDBDBD'
+			riddle : '',
+			answer : ''
 		});
 	};
 
 	render() {
 		const group = classNames('flex-container', 'flex-center', 'margin-top20', 'flex-direction-column640');
+		const bracketLeftRiddle = classNames({ 'active-field': this.props.activeRiddle }, 'bracket-left');
+		const bracketRightRiddle = classNames({ 'active-field': this.props.activeRiddle }, 'bracket-right');
+		const bracketLeftAnswer = classNames({ 'active-field': this.props.activeAnswer }, 'bracket-left');
+		const bracketRightAnswer = classNames({ 'active-field': this.props.activeAnswer }, 'bracket-right');
+		const answerSt = classNames({ 'active-field': this.props.activeAnswer });
+		const addSt = classNames({ 'active-field': this.props.activeAdd }, 'btn-add border-radius5', `${buttons.btn}`);
 
 		return (
-			<form action="/myform" method="post" onSubmit={this.handleSubmit}>
+			<form action='/myform' method='post' onSubmit={this.handleSubmit}>
 				<div className={group}>
 					<p>
-						<span className="bracket-left">[</span>
+						<span className={bracketLeftRiddle}>[-</span>
 						<input
-							tabIndex="2"
-							className="simple-input"
-							type="text"
-							name="test"
-							placeholder="-"
+							className='simple-input'
+							type='text'
+							name='test'
+							placeholder='.'
 							value={this.state.riddle}
 							onChange={this.handleChangeRiddle}
+							autocomplete='off'
+							ref={input => {
+								this.nameInputRiddle = input;
+							}}
 						/>
-						<span className="bracket-right">]</span>
+						<span className={bracketRightRiddle}>-]</span>
 					</p>
 
 					<p>
-						<button tabIndex="3" className={`${buttons.btn} btn-add border-radius5`} type="submit">
+						<button
+							className={addSt}
+							type='submit'
+							ref={input => {
+								this.nameInputAdd = input;
+							}}
+						>
 							+
 						</button>
 					</p>
 
-					<p>
-						<span className="bracket-left">[</span>
+					<p className={answerSt}>
+						<span className={bracketLeftAnswer}>[-</span>
 						<input
-							tabIndex="4"
-							className="simple-input"
-							type="text"
-							name="test"
-							placeholder="-"
+							className='simple-input'
+							type='text'
+							name='test'
+							placeholder='.'
 							value={this.state.answer}
 							onChange={this.handleChangeAnswer}
+							autocomplete='off'
+							ref={input => {
+								this.nameInputAnswer = input;
+							}}
 						/>
-						<span className="bracket-right">]</span>
+						<span className={bracketRightAnswer}>-]</span>
 					</p>
 
 					{/* <p>
@@ -117,17 +147,17 @@ export class Form extends Component {
 //textarea component
 export class Textarea extends React.Component {
 	static defaultProps = {
-		value: ''
+		value : ''
 	};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		value: PropTypes.string
+		id    : PropTypes.string.isRequired,
+		name  : PropTypes.string.isRequired,
+		value : PropTypes.string
 	};
 
 	state = {
-		value: this.props.value
+		value : this.props.value
 	};
 
 	render() {
@@ -145,25 +175,25 @@ export class Textarea extends React.Component {
 //radio component
 export class Radio extends React.Component {
 	static defaultProps = {
-		selected: false
+		selected : false
 	};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		selected: PropTypes.bool
+		id       : PropTypes.string.isRequired,
+		name     : PropTypes.string.isRequired,
+		label    : PropTypes.string.isRequired,
+		selected : PropTypes.bool
 	};
 
 	state = {
-		selected: this.props.selected
+		selected : this.props.selected
 	};
 
 	render() {
 		return (
 			<span>
 				<input
-					type="radio"
+					type='radio'
 					defaultChecked={this.state.selected}
 					onChange={this.handleChange}
 					id={this.props.id}
@@ -178,25 +208,25 @@ export class Radio extends React.Component {
 //checkbox component
 export class Checkbox extends React.Component {
 	static defaultProps = {
-		checked: false
+		checked : false
 	};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		checked: PropTypes.bool
+		id      : PropTypes.string.isRequired,
+		name    : PropTypes.string.isRequired,
+		label   : PropTypes.string.isRequired,
+		checked : PropTypes.bool
 	};
 
 	state = {
-		checked: this.props.checked
+		checked : this.props.checked
 	};
 
 	render() {
 		return (
 			<span>
 				<input
-					type="checkbox"
+					type='checkbox'
 					defaultChecked={this.state.checked}
 					onChange={this.handleChange}
 					id={this.props.id}
