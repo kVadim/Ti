@@ -101,6 +101,16 @@ export class GoAhead extends Component {
 		this.setState(prevState => ({ isRiddle: !prevState.isRiddle }));
 	};
 
+	increaseCatItemIndex = () => {
+		this.props.increaseCatItemIndex();
+		this.state.isRiddle = true;
+	};
+
+	decreaseCatItemIndex = () => {
+		this.props.decreaseCatItemIndex();
+		this.state.isRiddle = true;
+	};
+
 	render() {
 		// console.log('this.props', this.props);
 		const cats = this.props.cats || [];
@@ -138,8 +148,8 @@ export class GoAhead extends Component {
 				<MultiDirectionCard
 					items={catItems}
 					uppercase={false}
-					increaseIndex={this.props.increaseCatItemIndex}
-					decreaseIndex={this.props.decreaseCatItemIndex}
+					increaseIndex={this.increaseCatItemIndex}
+					decreaseIndex={this.decreaseCatItemIndex}
 					index={this.props.currentCatItemIndex}
 					active={this.state.activeField === 1}
 					solved={solved}
