@@ -87,10 +87,11 @@ export class MultiDirectionCard extends Component {
 	};
 
 	render() {
+		// console.log('this.props in multy', this.props);
 		const items = this.props.items || [];
 		const cardBox = classNames(`${tasks.card}`, { rightClicked: this.state.rc }, { leftClicked: this.state.lc });
 		const currentItem = this.state.showItem && items.length ? items[this.props.index] : '';
-		const taskContainer = classNames('flex-container', 'flex-center', 'grey', 'margin-top20', `${buttons.btn}`);
+		const taskContainer = classNames('flex-container', 'flex-center', 'grey', 'margin-top20', 'no-outline');
 		const itemField = classNames(
 			`${tasks.task}`,
 			{ uppercase: this.props.uppercase },
@@ -98,8 +99,11 @@ export class MultiDirectionCard extends Component {
 		);
 		const firstItem = this.props.index <= 0;
 		const lastItem = items.length <= this.props.index + 1;
+
+		// css
+		const setSolved = classNames({ green: this.props.solved });
 		return (
-			<div className={taskContainer} tabIndex='1'>
+			<div className={taskContainer} onClick={this.props.onClick}>
 				<div className={cardBox}>
 					<div
 						className={itemField}

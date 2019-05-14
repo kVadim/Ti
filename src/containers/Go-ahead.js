@@ -11,7 +11,6 @@ import { increaseCatItemIndexAction, decreaseCatItemIndexAction } from '../store
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
 // css
 import classNames from 'classnames';
-import tasks from '../css-modules/tasks.module.css';
 import buttons from '../css-modules/buttons.module.css';
 
 export class GoAhead extends Component {
@@ -46,9 +45,9 @@ export class GoAhead extends Component {
 		});
 	}
 
-	handleClick = () => {
-		this.setState(prevState => ++prevState.stage);
-	};
+	setActiveFieldNum(num) {
+		this.setState({ activeField: num });
+	}
 
 	handleKeyDown = e => {
 		console.log('e.key in GoAhead', e.key);
@@ -138,7 +137,6 @@ export class GoAhead extends Component {
 					reset all
 				</button>
 				<div className={infoLine}>{`stage: ${stage}`}</div>
-				<div className={infoLine}>{`index: ${this.state.index}`}</div>
 				<div className={infoLine}>{`solved: ${solved}`}</div>
 				<MultiDirectionCard
 					items={catNames}
@@ -147,6 +145,7 @@ export class GoAhead extends Component {
 					decreaseIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
 					active={this.state.activeField === 0}
+					onClick={() => this.setActiveFieldNum(0)}
 				/>
 				<MultiDirectionCard
 					items={catItems}
@@ -156,6 +155,7 @@ export class GoAhead extends Component {
 					index={this.props.currentCatItemIndex}
 					active={this.state.activeField === 1}
 					solved={solved}
+					onClick={() => this.setActiveFieldNum(1)}
 				/>
 			</div>
 		);
