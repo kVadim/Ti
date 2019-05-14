@@ -1,5 +1,5 @@
 .container {
-	height: 100vh;
+	height: calc(100vh - 60px);
 }
 /* text formating */
 .uppercase {
@@ -51,6 +51,10 @@
 
 .margin-top20 {
 	margin-top: 20px;
+}
+
+.margin-top30 {
+	margin-top: 30px;
 }
 
 /* border */

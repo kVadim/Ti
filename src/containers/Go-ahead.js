@@ -136,19 +136,20 @@ export class GoAhead extends Component {
 
 		return (
 			<div className='container'>
-				<button className={`${buttons['action-btn']}`} onClick={this.reset()}>
+				<button className={`${buttons['action-btn']} uppercase`} onClick={this.reset()}>
 					reset cat
 				</button>
-				<button className={`${buttons['action-btn']}`} onClick={this.resetAll}>
+				<button className={`${buttons['action-btn']} uppercase`} onClick={this.resetAll}>
 					reset all
 				</button>
 				<MultiDirectionCard
 					items={catNames}
-					uppercase={true}
+					uppercase={false}
 					increaseIndex={this.props.increaseCatNameIndex}
 					decreaseIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
 					active={this.state.activeField === 0}
+					solved={solved}
 					onClick={() => this.setActiveFieldNum(0)}
 				/>
 				<MultiDirectionCard
@@ -163,7 +164,7 @@ export class GoAhead extends Component {
 					onDoubleClick={() => this.toggleType()}
 				/>
 
-				<button className='set-done margin-top20' onClick={this.setDone}>
+				<button className={`${buttons['action-btn']} uppercase margin-top30`}  onClick={this.setDone}>
 					DONE
 				</button>
 			</div>

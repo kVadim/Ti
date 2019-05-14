@@ -28,12 +28,12 @@ export class TopHeader extends Component {
 	render() {
 		return (
 			<div className='top-header-container'>
-				<div className='buttons flex-start'>
+				<div className='buttons flex-end'>
 					<button className={buttons['top-header-btn']} onClick={() => this.navigateTo(routes.listAll)}>
 						list all
 					</button>
 					<button
-						className={`${buttons['top-header-btn']} margin-right-auto`}
+						className={`${buttons['top-header-btn']}`}
 						onClick={() => this.navigateTo(routes.goAhead)}
 					>
 						go ahead
