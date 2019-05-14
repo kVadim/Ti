@@ -5,8 +5,8 @@ import { compose } from 'redux';
 // actions
 import { setDoneActionCreator } from '../store/actions/setDoneActionCreator';
 import { resetActionCreator } from '../store/actions/resetActionCreator';
-import { increaseCatNameIndexAction } from '../store/actions/catNames';
-import { decreaseCatNameIndexAction } from '../store/actions/catNames';
+import { increaseCatNameIndexAction } from '../store/actions/catNamesActions';
+import { decreaseCatNameIndexAction } from '../store/actions/catNamesActions';
 // components
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
 // css
