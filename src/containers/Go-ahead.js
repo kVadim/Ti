@@ -163,10 +163,11 @@ export class GoAhead extends Component {
 					onClick={() => this.setActiveFieldNum(1)}
 					onDoubleClick={() => this.toggleType()}
 				/>
-
-				<button className={`${buttons['action-btn']} uppercase margin-top30`}  onClick={this.setDone}>
-					DONE
-				</button>
+				{!solved && (
+					<button className={`${buttons['action-btn']} uppercase margin-top30`} onClick={this.setDone}>
+						DONE
+					</button>
+				)}
 			</div>
 		);
 	}
