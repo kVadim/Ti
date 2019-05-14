@@ -156,6 +156,7 @@ export class ListAll extends Component {
 					decreaseIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
 					active={this.state.activeField === 0}
+					noMargin={!this.props.showList}
 				/>
 				<Form
 					addItem={this.addItem}

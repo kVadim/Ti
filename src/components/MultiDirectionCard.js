@@ -88,7 +88,13 @@ export class MultiDirectionCard extends Component {
 		const items = this.props.items || [];
 		const cardBox = classNames(`${tasks.card}`, { rightClicked: this.state.rc }, { leftClicked: this.state.lc });
 		const currentItem = this.state.showItem && items.length ? items[this.props.index] : '';
-		const taskContainer = classNames('flex-container', 'flex-center', 'grey', 'margin-top20', 'no-outline');
+		const taskContainer = classNames(
+			'flex-container',
+			'flex-center',
+			'grey',
+			{ 'margin-top20': !this.props.noMargin },
+			'no-outline'
+		);
 		const itemField = classNames(
 			`${tasks.task}`,
 			{ uppercase: this.props.uppercase },
@@ -98,7 +104,7 @@ export class MultiDirectionCard extends Component {
 		const lastItem = items.length <= this.props.index + 1;
 
 		// css
-		const currentItemSt = classNames({ highlighted: this.props.solved }, "'no-margins'");
+		const currentItemSt = classNames({ highlighted: this.props.solved }, 'flex-container flex-space-between');
 		return (
 			<div className={taskContainer} onClick={this.props.onClick} onDoubleClick={this.props.onDoubleClick}>
 				<div className={cardBox}>
@@ -108,12 +114,12 @@ export class MultiDirectionCard extends Component {
 						onTouchMove={this.handleTouchMove}
 						onTouchEnd={this.handleTouchEnd}
 					>
-						<div className='flex-container flex-space-between'>
-							<p className='no-margins left' disabled={firstItem} onClick={this.decreaseIndex}>
+						<div className={currentItemSt}>
+							<p className='no-margins left uppercase' disabled={firstItem} onClick={this.decreaseIndex}>
 								{firstItem ? 'x' : '<-'}
 							</p>
-							<p className={currentItemSt}>{currentItem}</p>
-							<p className='no-margins right' disabled={lastItem} onClick={this.increaseIndex}>
+							<p className='no-margins'>{currentItem}</p>
+							<p className='no-margins right uppercase' disabled={lastItem} onClick={this.increaseIndex}>
 								{lastItem ? 'x' : '->'}
 							</p>
 						</div>
