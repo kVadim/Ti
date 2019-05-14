@@ -69,7 +69,7 @@ export class MultiDirectionCard extends Component {
 
 	increaseIndex = () => {
 		if (this.props.index < this.props.items.length - 1) {
-			this.setState({ rc: true, showItem: false }, this.props.increaseCatNameIndex);
+			this.setState({ rc: true, showItem: false }, this.props.increaseIndex);
 			this.setState({ showItem: true });
 			setTimeout(() => {
 				this.setState({ rc: false });
@@ -79,7 +79,7 @@ export class MultiDirectionCard extends Component {
 
 	decreaseIndex = () => {
 		if (this.props.index > 0) {
-			this.setState({ lc: true }, this.props.decreaseCatNameIndex);
+			this.setState({ lc: true }, this.props.decreaseIndex);
 			setTimeout(() => {
 				this.setState({ lc: false });
 			}, 1000);

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { toggleShowList } from '../store/actions/toggleShowList';
-import { listAllIncreaseCatNameIndex } from '../store/actions/catNames';
-import { listAllDecreaseCatNameIndex } from '../store/actions/catNames';
+import { increaseCatNameIndexAction } from '../store/actions/catNames';
+import { decreaseCatNameIndexAction } from '../store/actions/catNames';
 import { Form } from '../components/Form';
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
 import { List, AutoSizer } from 'react-virtualized';
@@ -174,15 +174,15 @@ const mapStateToProps = state => {
 	return {
 		cats                : state.firestore.ordered.cats,
 		showList            : state.showList.showList,
-		currentCatNameIndex : state.filters.listAll.currentCatNameIndex
+		currentCatNameIndex : state.filters.app.currentCatNameIndex
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
 	toggleShowList       : () => dispatch(toggleShowList()),
 	createItem           : (id, arr) => dispatch(createItemActionCreator(id, arr)),
-	increaseCatNameIndex : () => dispatch(listAllIncreaseCatNameIndex()),
-	decreaseCatNameIndex : () => dispatch(listAllDecreaseCatNameIndex())
+	increaseCatNameIndex : () => dispatch(increaseCatNameIndexAction()),
+	decreaseCatNameIndex : () => dispatch(decreaseCatNameIndexAction())
 });
 
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(
