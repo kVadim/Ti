@@ -26,17 +26,15 @@ export class TopHeader extends Component {
 	}
 
 	render() {
+		const { pathname } = this.props.location;
+		const routeBtnName = pathname.includes('list-all') ? 'go ahead' : 'list all';
+		const route = pathname.includes('list-all') ? routes.goAhead : routes.listAll;
+
 		return (
 			<div className='top-header-container'>
 				<div className='buttons flex-end'>
-					<button className={buttons['top-header-btn']} onClick={() => this.navigateTo(routes.listAll)}>
-						list all
-					</button>
-					<button
-						className={`${buttons['top-header-btn']}`}
-						onClick={() => this.navigateTo(routes.goAhead)}
-					>
-						go ahead
+					<button className={`${buttons['top-header-btn']}`} onClick={() => this.navigateTo(route)}>
+						{routeBtnName}
 					</button>
 					{/* <button
             className={buttons['top-header-btn']}

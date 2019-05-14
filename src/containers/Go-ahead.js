@@ -136,10 +136,10 @@ export class GoAhead extends Component {
 
 		return (
 			<div className='container'>
-				<button className={`${buttons['action-btn']} uppercase`} onClick={this.reset()}>
+				<button className={`${buttons['action-btn']}`} onClick={this.reset()}>
 					reset cat
 				</button>
-				<button className={`${buttons['action-btn']} uppercase`} onClick={this.resetAll}>
+				<button className={`${buttons['action-btn']}`} onClick={this.resetAll}>
 					reset all
 				</button>
 				<MultiDirectionCard
