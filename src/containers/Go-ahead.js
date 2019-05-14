@@ -5,8 +5,8 @@ import { compose } from 'redux';
 // actions
 import { setDoneActionCreator } from '../store/actions/setDoneActionCreator';
 import { resetActionCreator } from '../store/actions/resetActionCreator';
-import { increaseCatNameIndexAction } from '../store/actions/catNamesActions';
-import { decreaseCatNameIndexAction } from '../store/actions/catNamesActions';
+import { increaseCatNameIndexAction, decreaseCatNameIndexAction } from '../store/actions/catNamesActions';
+import { increaseCatItemIndexAction, decreaseCatItemIndexAction } from '../store/actions/catItemsActions';
 // components
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
 // css
@@ -18,9 +18,7 @@ export class GoAhead extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			index        : 0,
 			stage        : 0,
-			catIndex     : 0,
 			activeField  : 0,
 			maxActiveNum : 1
 		};
@@ -52,27 +50,21 @@ export class GoAhead extends Component {
 		this.setState(prevState => ++prevState.stage);
 	};
 
-	// handleKeyDown = e => {
-	// 	console.log('e.key in GoAhead', e.key);
-	// 	switch (e.key) {
-	// 		case 'ArrowDown':
-	// 			e.shiftKey ? this.increaseActiveFieldNum() : this.setDone();
-	// 			break;
-	// 		case 'ArrowUp':
-	// 			e.shiftKey ? this.decreaseActiveFieldNum() : this.increaseStage();
-	// 			break;
-	// 		case 'ArrowRight':
-	// 			e.shiftKey ? this.increaseCatIndex() : this.increaseIndex();
-	// 			break;
-	// 		case 'ArrowLeft':
-	// 			e.shiftKey ? this.decreaseCatIndex() : this.decreaseIndex();
-	// 			break;
-	// 		case 'Enter':
-	// 			e.shiftKey ? this.resetAll() : this.reset()();
-	// 			break;
-	// 		default:
-	// 	}
-	// };
+	handleKeyDown = e => {
+		console.log('e.key in GoAhead', e.key);
+		switch (e.key) {
+			case 'ArrowDown':
+				e.shiftKey ? this.increaseActiveFieldNum() : this.setDone();
+				break;
+			case 'ArrowUp':
+				e.shiftKey ? this.decreaseActiveFieldNum() : this.increaseStage();
+				break;
+			case 'Enter':
+				e.shiftKey ? this.resetAll() : this.reset()();
+				break;
+			default:
+		}
+	};
 
 	getOptions() {
 		return Object.keys(this.state.categories).map(cat => (
@@ -81,41 +73,6 @@ export class GoAhead extends Component {
 			</option>
 		));
 	}
-
-	increaseIndex = () => {
-		this.setState(prevState => {
-			return (
-				prevState.index < this.props.cats[this.state.catIndex]['data'].length - 1 && {
-					index : ++prevState.index,
-					stage : 0
-				}
-			);
-		});
-	};
-
-	increaseCatIndex = () => {
-		this.setState(prevState => {
-			return (
-				prevState.catIndex < this.props.cats.length - 1 && {
-					catIndex : ++prevState.catIndex,
-					index    : 0,
-					stage    : 0
-				}
-			);
-		});
-	};
-
-	decreaseIndex = () => {
-		this.setState(prevState => {
-			return prevState.index > 0 && { index: --prevState.index, stage: 0 };
-		});
-	};
-
-	decreaseCatIndex = () => {
-		this.setState(prevState => {
-			return prevState.catIndex > 0 && { catIndex: --prevState.catIndex, index: 0, stage: 0 };
-		});
-	};
 
 	increaseStage = () => {
 		// this.setState(prevState => ({ stage: ++prevState.stage }))
@@ -143,47 +100,33 @@ export class GoAhead extends Component {
 			return item;
 		});
 
-		console.log('data', data);
-
 		this.props.reset(id, data);
 	};
 
 	resetAll = () => {
 		let catLength = this.props.cats.length;
 
-		console.log('catLength0', catLength);
-
 		while (catLength--) {
-			console.log('catLength', catLength);
 			this.reset(catLength)();
 		}
 	};
 
 	render() {
-		console.log('this.props', this.props);
+		// console.log('this.props', this.props);
 		const cats = this.props.cats || [];
 		const catNames = cats.map(item => item.name);
-		const index = this.state.index;
+
 		const stage = this.state.stage;
 		const type = !this.state.stage ? 'riddle' : 'answer';
 		const cat = cats.length && cats[this.props.currentCatNameIndex];
 		const catItems = cat && cat['data'].map(item => item[type]);
-		console.log('catItems', catItems);
 
 		const solved =
 			cats &&
 			cats.length &&
-			cats[this.state.catIndex]['data'][index] &&
-			cats[this.state.catIndex]['data'][index].solved;
+			cats[this.props.currentCatNameIndex]['data'][this.props.currentCatItemIndex] &&
+			cats[this.props.currentCatNameIndex]['data'][this.props.currentCatItemIndex].solved;
 
-		const currentCat = this.props.catsNames[this.state.catIndex] || 'not found';
-		const currentItem =
-			cats.length && cats[this.state.catIndex]['data'][index]
-				? cats[this.state.catIndex]['data'][index][type]
-				: 'not found';
-		//styles
-		const taskContainer = classNames('flex-container', 'flex-center', { grey: !stage }, 'margin-top20');
-		const setSolved = classNames({ green: solved });
 		const infoLine = classNames('title flex-container flex-start grey margin-top20');
 
 		return (
@@ -212,6 +155,7 @@ export class GoAhead extends Component {
 					decreaseIndex={this.props.decreaseCatItemIndex}
 					index={this.props.currentCatItemIndex}
 					active={this.state.activeField === 1}
+					solved={solved}
 				/>
 			</div>
 		);
@@ -224,15 +168,18 @@ const mapStateToProps = state => {
 	const catsNames = cats ? cats.map(cat => cat['name']) : [];
 	const solved = !!state.solved;
 	const currentCatNameIndex = state.filters.app.currentCatNameIndex;
+	const currentCatItemIndex = state.filters.app.currentCatItemIndex;
 
-	return { cats, catsNames, solved, currentCatNameIndex };
+	return { cats, catsNames, solved, currentCatNameIndex, currentCatItemIndex };
 };
 
 const mapDispatchToProps = dispatch => ({
 	setDone              : (id, data) => dispatch(setDoneActionCreator(id, data)),
 	reset                : (id, data) => dispatch(resetActionCreator(id, data)),
 	increaseCatNameIndex : () => dispatch(increaseCatNameIndexAction()),
-	decreaseCatNameIndex : () => dispatch(decreaseCatNameIndexAction())
+	decreaseCatNameIndex : () => dispatch(decreaseCatNameIndexAction()),
+	increaseCatItemIndex : () => dispatch(increaseCatItemIndexAction()),
+	decreaseCatItemIndex : () => dispatch(decreaseCatItemIndexAction())
 });
 
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(
@@ -247,29 +194,3 @@ export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(map
 // 		showList            : state.showList.showList,
 // 	};
 // };
-
-/* <div className={taskContainer}>
-					<button disabled={this.state.catIndex === 0} onClick={this.decreaseCatIndex}>
-						{'<-'}
-					</button>
-					<div className={tasks.task} onClick={this.handleClick}>
-						{currentCat}
-					</div>
-					<button disabled={cats.length - 1 === this.state.catIndex} onClick={this.increaseCatIndex}>
-						{'->'}
-					</button>
-				</div>
-				<div className={taskContainer + ' ' + setSolved}>
-					<button disabled={this.state.index === 0} onClick={this.decreaseIndex}>
-						{'<-'}
-					</button>
-					<div className={tasks.task} onClick={this.handleClick}>
-						{currentItem}
-					</div>
-					<button
-						disabled={cats.length && cats[this.state.catIndex]['data'].length - 1 === this.state.index}
-						onClick={this.increaseIndex}
-					>
-						{'->'}
-					</button>
-				</div> */
