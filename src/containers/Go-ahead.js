@@ -17,7 +17,7 @@ export class GoAhead extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			stage        : 0,
+			isRiddle     : true,
 			activeField  : 0,
 			maxActiveNum : 1
 		};
@@ -50,13 +50,13 @@ export class GoAhead extends Component {
 	}
 
 	handleKeyDown = e => {
-		console.log('e.key in GoAhead', e.key);
+		// console.log('e.key in GoAhead', e.key);
 		switch (e.key) {
 			case 'ArrowDown':
 				e.shiftKey ? this.increaseActiveFieldNum() : this.setDone();
 				break;
 			case 'ArrowUp':
-				e.shiftKey ? this.decreaseActiveFieldNum() : this.increaseStage();
+				e.shiftKey ? this.decreaseActiveFieldNum() : this.toggleType();
 				break;
 			case 'Enter':
 				e.shiftKey ? this.resetAll() : this.reset()();
@@ -65,27 +65,14 @@ export class GoAhead extends Component {
 		}
 	};
 
-	getOptions() {
-		return Object.keys(this.state.categories).map(cat => (
-			<option value={cat} key={cat}>
-				{cat.toUpperCase()}
-			</option>
-		));
-	}
-
-	increaseStage = () => {
-		// this.setState(prevState => ({ stage: ++prevState.stage }))
-		this.props.increaseCatIndex();
-	};
-
 	setDone = () => {
-		const id = this.props.cats[this.state.catIndex]['id'];
+		const id = this.props.cats[this.props.currentCatNameIndex]['id'];
 		const data = [];
-		this.props.cats[this.state.catIndex]['data'].forEach(item => {
+		this.props.cats[this.props.currentCatNameIndex]['data'].forEach(item => {
 			const newItem = { ...item };
 			data.push(newItem);
 		});
-		data[this.state.index]['solved'] || (data[this.state.index]['solved'] = true);
+		data[this.props.currentCatItemIndex]['solved'] || (data[this.props.currentCatItemIndex]['solved'] = true);
 
 		this.props.setDone(id, data);
 	};
@@ -110,13 +97,16 @@ export class GoAhead extends Component {
 		}
 	};
 
+	toggleType = () => {
+		this.setState(prevState => ({ isRiddle: !prevState.isRiddle }));
+	};
+
 	render() {
 		// console.log('this.props', this.props);
 		const cats = this.props.cats || [];
 		const catNames = cats.map(item => item.name);
 
-		const stage = this.state.stage;
-		const type = !this.state.stage ? 'riddle' : 'answer';
+		const type = this.state.isRiddle ? 'riddle' : 'answer';
 		const cat = cats.length && cats[this.props.currentCatNameIndex];
 		const catItems = cat && cat['data'].map(item => item[type]);
 
@@ -136,8 +126,6 @@ export class GoAhead extends Component {
 				<button className={`${buttons['action-btn']}`} onClick={this.resetAll}>
 					reset all
 				</button>
-				<div className={infoLine}>{`stage: ${stage}`}</div>
-				<div className={infoLine}>{`solved: ${solved}`}</div>
 				<MultiDirectionCard
 					items={catNames}
 					uppercase={true}
@@ -156,7 +144,12 @@ export class GoAhead extends Component {
 					active={this.state.activeField === 1}
 					solved={solved}
 					onClick={() => this.setActiveFieldNum(1)}
+					onDoubleClick={() => this.toggleType()}
 				/>
+
+				<button className='set-done margin-top20' onClick={this.setDone}>
+					DONE
+				</button>
 			</div>
 		);
 	}
@@ -185,12 +178,3 @@ const mapDispatchToProps = dispatch => ({
 export default compose(firestoreConnect([ { collection: 'cats' } ]), connect(mapStateToProps, mapDispatchToProps))(
 	GoAhead
 );
-
-// const mapStateToProps = state => {
-// 	// console.log('state', state)
-// 	// console.log("state.firestore", state.firestore.ordered);
-// 	return {
-// 		cats                : state.firestore.ordered.cats,
-// 		showList            : state.showList.showList,
-// 	};
-// };

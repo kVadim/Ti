@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import tasks from '../css-modules/tasks.module.css';
 // css
 import classNames from 'classnames';
-import buttons from '../css-modules/buttons.module.css';
 
 export class MultiDirectionCard extends Component {
 	constructor(props) {
@@ -51,10 +50,8 @@ export class MultiDirectionCard extends Component {
 			if (this.setState.rightToLeft === undefined) {
 				this.setState({ rightToLeft: shift > 0 });
 			}
-			// console.log('shift', shift);
-			// console.warn(e.touches[0].clientX);
+
 			const diff = this.state.rightToLeft ? this.state.offset - shift : this.state.offset + shift;
-			// console.log('diff', diff);
 
 			if (diff < 0) {
 				this.state.rightToLeft ? this.increaseIndex() : this.decreaseIndex();
@@ -101,9 +98,9 @@ export class MultiDirectionCard extends Component {
 		const lastItem = items.length <= this.props.index + 1;
 
 		// css
-		const setSolved = classNames({ green: this.props.solved });
+		const currentItemSt = classNames({ highlighted: this.props.solved }, "'no-margins'");
 		return (
-			<div className={taskContainer} onClick={this.props.onClick}>
+			<div className={taskContainer} onClick={this.props.onClick} onDoubleClick={this.props.onDoubleClick}>
 				<div className={cardBox}>
 					<div
 						className={itemField}
@@ -115,7 +112,7 @@ export class MultiDirectionCard extends Component {
 							<p className='no-margins left' disabled={firstItem} onClick={this.decreaseIndex}>
 								{firstItem ? 'x' : '<-'}
 							</p>
-							<p className='no-margins'>{currentItem}</p>
+							<p className={currentItemSt}>{currentItem}</p>
 							<p className='no-margins right' disabled={lastItem} onClick={this.increaseIndex}>
 								{lastItem ? 'x' : '->'}
 							</p>
