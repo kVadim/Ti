@@ -78,9 +78,15 @@ export class GoAhead extends Component {
 	};
 
 	reset = catIndex => e => {
-		const index = catIndex || this.state.catIndex;
+		const index = catIndex || this.props.currentCatNameIndex;
 		const id = this.props.cats[index]['id'];
-		let data = [ ...this.props.cats[index]['data'] ];
+
+		const data = [];
+		this.props.cats[index]['data'].forEach(item => {
+			const newItem = { ...item };
+			data.push(newItem);
+		});
+
 		data.map(item => {
 			item['solved'] = false;
 			return item;
