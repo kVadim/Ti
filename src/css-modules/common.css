@@ -121,7 +121,7 @@
 
 .active-field {
 	color: #444;
-	font-weight: 600;
+	border: 1px solid #ddddd0;
 }
 
 /* animation */
