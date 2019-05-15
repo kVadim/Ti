@@ -22,8 +22,8 @@ p {
 }
 
 :root {
-	/* --background: #ceedff94; */
-	/* --background: #5d555514; */
-	--background: #45616b1f;
-	--darktop: #908f8fbd;
+	--background: #fffff08a;
+	--taskcolor: #fefae09e;
+	--darktop: #646c7c;
+	--btncolor: #f2f4f5;
 }

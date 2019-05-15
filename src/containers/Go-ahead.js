@@ -144,7 +144,7 @@ export class GoAhead extends Component {
 				</button>
 				<MultiDirectionCard
 					items={catNames}
-					uppercase={false}
+					uppercase={true}
 					increaseIndex={this.props.increaseCatNameIndex}
 					decreaseIndex={this.props.decreaseCatNameIndex}
 					index={this.props.currentCatNameIndex}
@@ -164,8 +164,8 @@ export class GoAhead extends Component {
 					onDoubleClick={() => this.toggleType()}
 				/>
 				{!solved && (
-					<button className={`${buttons['action-btn']} uppercase margin-top30`} onClick={this.setDone}>
-						DONE
+					<button className={`${buttons['action-btn']} margin-top30`} onClick={this.setDone}>
+						done
 					</button>
 				)}
 			</div>

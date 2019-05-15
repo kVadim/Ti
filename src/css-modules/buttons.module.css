@@ -1,14 +1,22 @@
 /* buttons */
 .btn:focus {
-	color: black;
-	font-weight: 800;
+	/* color: #444;
+	font-weight: 800; */
 	outline: none;
 }
 
 .action-btn {
-	width: 200px;
+	width: 125px;
+	height: 29px;
+	background-color: var(--btncolor);
+	outline: none;
+	border: none;
 }
 
 .top-header-btn {
-	width: 100px;
+	background-color: var(--btncolor);
+	outline: none;
+	height: 22px;
+	width: 72px;
+	border: none;
 }

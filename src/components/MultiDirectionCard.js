@@ -115,11 +115,21 @@ export class MultiDirectionCard extends Component {
 						onTouchEnd={this.handleTouchEnd}
 					>
 						<div className={currentItemSt}>
-							<p className='no-margins left uppercase' disabled={firstItem} onClick={this.decreaseIndex}>
+							<p
+								className='no-margins left uppercase'
+								disabled={firstItem}
+								onClick={this.decreaseIndex}
+								style={{ 'min-width': '18px' }}
+							>
 								{firstItem ? 'x' : '<-'}
 							</p>
 							<p className='no-margins'>{currentItem}</p>
-							<p className='no-margins right uppercase' disabled={lastItem} onClick={this.increaseIndex}>
+							<p
+								className='no-margins right uppercase'
+								disabled={lastItem}
+								onClick={this.increaseIndex}
+								style={{ 'min-width': '18px' }}
+							>
 								{lastItem ? 'x' : '->'}
 							</p>
 						</div>
