@@ -119,7 +119,7 @@ export class MultiDirectionCard extends Component {
 								className='no-margins left uppercase'
 								disabled={firstItem}
 								onClick={this.decreaseIndex}
-								style={{ 'min-width': '18px' }}
+								style={{ minWidth: '18px' }}
 							>
 								{firstItem ? 'x' : '<-'}
 							</p>
@@ -128,7 +128,7 @@ export class MultiDirectionCard extends Component {
 								className='no-margins right uppercase'
 								disabled={lastItem}
 								onClick={this.increaseIndex}
-								style={{ 'min-width': '18px' }}
+								style={{ minWidth: '18px' }}
 							>
 								{lastItem ? 'x' : '->'}
 							</p>
