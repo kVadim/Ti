@@ -10,7 +10,6 @@ import { increaseCatItemIndexAction, decreaseCatItemIndexAction } from '../store
 // components
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
 // css
-import classNames from 'classnames';
 import buttons from '../css-modules/buttons.module.css';
 
 export class GoAhead extends Component {
@@ -109,12 +108,12 @@ export class GoAhead extends Component {
 
 	increaseCatItemIndex = () => {
 		this.props.increaseCatItemIndex();
-		this.state.isRiddle = true;
+		this.setState({ isRiddle: true });
 	};
 
 	decreaseCatItemIndex = () => {
 		this.props.decreaseCatItemIndex();
-		this.state.isRiddle = true;
+		this.setState({ isRiddle: true });
 	};
 
 	render() {
@@ -131,8 +130,6 @@ export class GoAhead extends Component {
 			cats.length &&
 			cats[this.props.currentCatNameIndex]['data'][this.props.currentCatItemIndex] &&
 			cats[this.props.currentCatNameIndex]['data'][this.props.currentCatItemIndex].solved;
-
-		const infoLine = classNames('title flex-container flex-start grey margin-top20');
 
 		return (
 			<div className='container'>
