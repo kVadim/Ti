@@ -76,6 +76,8 @@
 
 .cell {
 	min-width: 50%;
+	max-width: 90%;
+	margin: auto;
 }
 
 .simple-input {

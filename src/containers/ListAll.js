@@ -7,7 +7,7 @@ import { increaseCatNameIndexAction } from '../store/actions/catNamesActions';
 import { decreaseCatNameIndexAction } from '../store/actions/catNamesActions';
 import { Form } from '../components/Form';
 import { MultiDirectionCard } from '../components/MultiDirectionCard';
-import { List, AutoSizer } from 'react-virtualized';
+import { CellMeasurer, CellMeasurerCache, List, AutoSizer } from 'react-virtualized';
 // import { getFirestore } from "redux-firestore";
 
 import { createItemActionCreator } from '../store/actions/createItemActionCreator';
@@ -95,16 +95,26 @@ export class ListAll extends Component {
 	}
 
 	getRows = (id, data) => {
-		function rowRenderer({ index, key, style }) {
+		const cache = new CellMeasurerCache({
+			defaultHeight : 40,
+			fixedWidth    : true
+		});
+
+		function rowRenderer({ index, key, style, parent }) {
 			// console.log('data', data)
 			if (data.length) {
 				return (
-					<div key={key} className='row' style={style}>
-						<div className='flex-container flex-space-between flex-direction-column500'>
-							<div className='cell'>{data[index]['riddle']}</div>
-							<div className='cell darkgrey'>{data[index]['answer']}</div>
-						</div>
-					</div>
+					<CellMeasurer cache={cache} columnIndex={0} key={key} rowIndex={index} parent={parent}>
+						{() => (
+							<div key={key} className='row' style={style}>
+								<br />
+								<div className='flex-container flex-space-between flex-direction-column500'>
+									<div className='cell'>{data[index]['riddle']}</div>
+									<div className='cell darkgrey'>{data[index]['answer']}</div>
+								</div>
+							</div>
+						)}
+					</CellMeasurer>
 				);
 			} else return null;
 		}
@@ -117,7 +127,8 @@ export class ListAll extends Component {
 							width={width}
 							height={160}
 							rowCount={data.length}
-							rowHeight={40}
+							deferredMeasurementCache={cache}
+							rowHeight={cache.rowHeight}
 							rowRenderer={rowRenderer}
 							className={'margin-both-auto'}
 							overscanRowCount={3}
