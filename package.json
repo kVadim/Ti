@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
-    "firebase": "^5.9.4",
+    "firebase": "^10.9.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-facebook-login": "^4.1.1",
